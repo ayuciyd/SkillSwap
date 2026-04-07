@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">My Profile</h1>
+</div>
+
+<div class="grid-cols-2">
+    <div class="card">
+        <h2 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 20px;">Edit Profile</h2>
+        <form method="POST" action="{{ url_for('profile') }}">
+            <div class="form-group">
+                <label class="form-label">Full Name</label>
+                <input type="text" name="full_name" class="form-control" value="{{ user.full_name }}" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">University / College</label>
+                <input type="text" name="university" class="form-control" value="{{ user.university or '' }}">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Bio</label>
+                <textarea name="bio" class="form-control" rows="4">{{ user.bio or '' }}</textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+        </form>
+    </div>
+
+    <div>
+        <div class="card" style="margin-bottom: 24px;">
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <div class="avatar" style="width: 64px; height: 64px; font-size: 24px;">{{ user.full_name[0] }}</div>
+                <div>
+                    <h2 style="font-size: 1.25rem; font-weight: 700;">{{ user.full_name }}</h2>
+                    <p style="color: var(--muted); margin-bottom: 4px;">@{{ user.username }}</p>
+                    {% if user.is_verified %}
+                        <span class="badge badge-success" style="display: inline-flex; align-items: center; gap: 4px;"><i data-lucide="check-circle" style="width: 14px; height: 14px;"></i> Verified Teacher</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="card" style="margin-bottom: 24px;">
+            <h2 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 16px;">My Badges</h2>
+            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                {% if badges %}
+                    {% for b in badges %}
+                    <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 8px 16px; border-radius: 20px; display: flex; align-items: center; gap: 8px;">
+                        <i data-lucide="{{ b.icon }}" style="width: 20px; height: 20px; color: {{ b.color }};"></i>
+                        <span style="font-weight: 600; color: {{ b.color }};">{{ b.name }}</span>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p style="color: var(--muted); font-size: 0.875rem;">Join sessions to unlock achievement badges!</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 20px;">Recent Reviews</h2>
+            {% if reviews %}
+                {% for r in reviews %}
+                <div style="border-bottom: 1px solid var(--border); padding-bottom: 16px; margin-bottom: 16px;">
+                    <div style="display: flex; justify-content: space-between;">
+                        <span style="font-weight: 600;">{{ r.reviewer_name }}</span>
+                        <span style="color: #F59E0B;">{{ '★' * r.rating }}{{ '☆' * (5 - r.rating) }}</span>
+                    </div>
+                    <p style="color: var(--muted); margin-top: 8px;">"{{ r.comment }}"</p>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p style="color: var(--muted);">No reviews yet. Complete more teaching sessions to build your reputation!</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

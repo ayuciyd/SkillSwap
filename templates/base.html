@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillSwap</title>
+    <link rel="icon" href="{{ url_for('static', filename='img/logo.png') }}" type="image/svg+xml">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <div class="flash-container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                <div class="flash-msg {{ category }}">
+                    <span>{{ message }}</span>
+                    <button onclick="dismissFlash(this)">&times;</button>
+                </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    {% if current_user %}
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-logo brand-text" style="display: flex; align-items: center; justify-content: flex-start; gap: 0px;">
+                <img src="{{ url_for('static', filename='img/logo.png') }}" style="height: 48px;" alt="SkillSwap Logo"> SkillSwap
+            </div>
+            <nav class="sidebar-nav">
+                {% if current_user.role != 'admin' %}
+                <div class="credits-badge" style="margin-bottom: 16px; justify-content: center;">
+                    <i data-lucide="star" style="width: 16px; height: 16px; fill: currentColor;"></i> {{ current_user.credits_balance }} credits
+                </div>
+                {% endif %}
+                {% if current_user.role == 'admin' %}
+                    <a href="{{ url_for('admin_dashboard') }}" class="nav-item {% if request.endpoint == 'admin_dashboard' %}active{% endif %}"><i data-lucide="layout-dashboard" style="width: 20px; height: 20px;"></i> Admin Dashboard</a>
+                    <a href="{{ url_for('admin_users') }}" class="nav-item {% if request.endpoint == 'admin_users' %}active{% endif %}"><i data-lucide="users" style="width: 20px; height: 20px;"></i> Manage Users</a>
+                    <a href="{{ url_for('admin_skills') }}" class="nav-item {% if request.endpoint == 'admin_skills' %}active{% endif %}"><i data-lucide="wrench" style="width: 20px; height: 20px;"></i> Manage Skills</a>
+                    <a href="{{ url_for('admin_certificates') }}" class="nav-item {% if request.endpoint == 'admin_certificates' %}active{% endif %}"><i data-lucide="award" style="width: 20px; height: 20px;"></i> Certificates</a>
+                    <a href="{{ url_for('admin_sessions') }}" class="nav-item {% if request.endpoint == 'admin_sessions' %}active{% endif %}"><i data-lucide="calendar" style="width: 20px; height: 20px;"></i> Manage Sessions</a>
+                    <a href="{{ url_for('admin_transactions') }}" class="nav-item {% if request.endpoint == 'admin_transactions' %}active{% endif %}"><i data-lucide="credit-card" style="width: 20px; height: 20px;"></i> Transactions</a>
+                {% else %}
+                    <a href="{{ url_for('dashboard') }}" class="nav-item {% if request.endpoint == 'dashboard' %}active{% endif %}"><i data-lucide="home" style="width: 20px; height: 20px;"></i> Dashboard</a>
+                    <a href="{{ url_for('browse') }}" class="nav-item {% if request.endpoint == 'browse' %}active{% endif %}"><i data-lucide="search" style="width: 20px; height: 20px;"></i> Browse Skills</a>
+                    <a href="{{ url_for('my_skills') }}" class="nav-item {% if request.endpoint == 'my_skills' %}active{% endif %}"><i data-lucide="code" style="width: 20px; height: 20px;"></i> My Skills</a>
+                    <a href="{{ url_for('matches') }}" class="nav-item {% if request.endpoint == 'matches' %}active{% endif %}"><i data-lucide="users" style="width: 20px; height: 20px;"></i> Matches</a>
+                    <a href="{{ url_for('sessions') }}" class="nav-item {% if request.endpoint == 'sessions' %}active{% endif %}"><i data-lucide="calendar" style="width: 20px; height: 20px;"></i> Sessions</a>
+                    <a href="{{ url_for('leaderboard') }}" class="nav-item {% if request.endpoint == 'leaderboard' %}active{% endif %}"><i data-lucide="trophy" style="width: 20px; height: 20px;"></i> Leaderboard</a>
+                {% endif %}
+            </nav>
+            <div class="sidebar-footer">
+                <a href="{{ url_for('logout') }}" class="nav-item" style="color: var(--secondary)"><i data-lucide="log-out" style="width: 20px; height: 20px;"></i> Logout</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-navbar">
+                <div class="nav-left"></div>
+                <div class="nav-right">
+                    
+                    
+                    <a href="{{ url_for('notifications') }}" class="nav-item" style="position: relative; padding: 8px;">
+                        <i data-lucide="bell" style="width: 20px; height: 20px;"></i>
+                        {% if unread_notifications > 0 %}
+                        <span style="position: absolute; top: 0; right: 0; background: red; color: white; border-radius: 50%; width: 18px; height: 18px; font-size: 10px; display: flex; align-items: center; justify-content: center;">{{ unread_notifications }}</span>
+                        {% endif %}
+                    </a>
+                    
+                    <a href="{{ url_for('profile') }}" class="user-profile-btn">
+                        <div class="avatar">{{ current_user.full_name[0] }}</div>
+                        <span>{{ current_user.full_name }}</span>
+                    </a>
+                </div>
+            </header>
+            <div class="page-container">
+                {% block content %}{% endblock %}
+            </div>
+        </main>
+    </div>
+    {% else %}
+        {% block no_auth_content %}{% endblock %}
+    {% endif %}
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script>
+      lucide.createIcons();
+    </script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

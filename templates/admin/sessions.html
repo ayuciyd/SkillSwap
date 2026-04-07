@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">Manage Sessions</h1>
+</div>
+<div class="card">
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Date / Time</th>
+                    <th>Teacher</th>
+                    <th>Learner</th>
+                    <th>Status</th>
+                    <th>Mode</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for s in sessions %}
+                <tr>
+                    <td>
+                        <div style="font-weight: 600;">{{ s.session_date|fmt_date }}</div>
+                        <div style="font-size: 0.75rem; color: var(--muted);">{{ s.session_time|fmt_time }}</div>
+                    </td>
+                    <td>{{ s.teacher }}</td>
+                    <td>{{ s.learner }}</td>
+                    <td><span class="badge badge-primary">{{ s.status.upper() }}</span></td>
+                    <td>{{ s.mode.upper() }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

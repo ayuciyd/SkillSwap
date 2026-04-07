@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">Browse Skills</h1>
+</div>
+
+<div class="card" style="margin-bottom: 32px;">
+    <form method="GET" action="{{ url_for('browse') }}" style="display: flex; gap: 16px; align-items: flex-end; flex-wrap: wrap;">
+        <div style="flex: 1; min-width: 200px;">
+            <label class="form-label">Search Keywords</label>
+            <input type="text" name="q" class="form-control" placeholder="Search by name, tags..." value="{{ request.args.get('q', '') }}">
+        </div>
+        <div style="min-width: 150px;">
+            <label class="form-label">Category</label>
+            <select name="category" class="form-control">
+                <option value="">All Categories</option>
+                {% for c in categories %}
+                <option value="{{ c.id }}" {% if request.args.get('category') == c.id %}selected{% endif %}>{{ c.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div style="min-width: 150px;">
+            <label class="form-label">Mode</label>
+            <select name="mode" class="form-control">
+                <option value="">Any Mode</option>
+                <option value="online" {% if request.args.get('mode') == 'online' %}selected{% endif %}>Online</option>
+                <option value="offline" {% if request.args.get('mode') == 'offline' %}selected{% endif %}>Offline</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+</div>
+
+{% if matches %}
+    <h2 style="margin-bottom: 20px;">Top Smart Matches for You</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px;">
+        {% for m in matches %}
+        <div class="card" style="border: 2px solid {% if m.is_mutual %}var(--warning){% else %}transparent{% endif %}; position:relative; display: flex; flex-direction: column; text-align: center; padding: 32px 24px;">
+            {% if m.is_mutual %}
+            <div style="position: absolute; top: -14px; left: 50%; transform: translateX(-50%); background: var(--warning); color: white; padding: 4px 16px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; display: inline-flex; align-items: center; gap: 4px; white-space: nowrap;"><i data-lucide="zap" style="width: 14px; height: 14px;"></i> MUTUAL MATCH</div>
+            {% endif %}
+            
+            <div class="avatar avatar-bg-{{ loop.index0 % 6 }}" style="width: 80px; height: 80px; font-size: 28px; margin: 0 auto 16px;">{{ m.full_name[0] }}</div>
+            <h3 style="font-weight: 800; font-size: 1.25rem; margin-bottom: 2px;">{{ m.full_name | title }}</h3>
+            <p style="color: var(--muted); font-size: 0.875rem; margin-bottom: 8px;">@{{ m.username }}</p>
+            <p style="font-size: 0.875rem; color: var(--muted); margin-bottom: 12px;">{{ m.university }} • <i data-lucide="star" style="width: 14px; height: 14px; display: inline-block; vertical-align: text-bottom; fill: currentColor;"></i> {{ m.avg_rating }} ({{ m.total_sessions }})</p>
+            
+            <div style="margin-bottom: 20px;">
+                <span class="badge badge-success">Match Score: {{ m.match_score }}</span>
+            </div>
+            
+            <div class="highlight-box">
+                <p class="section-label">They can teach you:</p>
+                <p style="font-weight: 700; color: var(--primary); font-size: 1.1rem; margin-bottom: 12px;">{{ m.their_teach_skill }}</p>
+                <p class="section-label">You will teach:</p>
+                <p style="font-weight: 600;">{{ m.your_learn_skill }}</p>
+            </div>
+            
+            <form method="POST" action="{{ url_for('create_match') }}" style="margin-top: auto;">
+                <input type="hidden" name="their_skill_id" value="{{ m.their_teach_skill_id }}">
+                <input type="hidden" name="my_skill_id" value="{{ m.your_learn_skill_id }}">
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Request Match</button>
+            </form>
+        </div>
+        {% endfor %}
+    </div>
+{% elif grid %}
+    <h2 style="margin-bottom: 20px;">Search Results</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px;">
+        {% for s in grid %}
+        <div class="card">
+            <span class="badge badge-primary" style="display: inline-flex; align-items: center; gap: 4px;"><i data-lucide="{{ s.icon }}" style="width: 14px; height: 14px;"></i> {{ s.cat_name }}</span>
+            <span class="badge {% if s.skill_type == 'teach' %}badge-success{% else %}badge-warning{% endif %}" style="float:right;">
+                {{ s.skill_type.upper() }}
+            </span>
+            <h3 style="font-size: 1.25rem; font-weight: 700; margin: 12px 0 8px;">{{ s.skill_name }}</h3>
+            <p style="color: var(--muted); margin-bottom: 16px;">By {{ s.full_name | title }} • {{ s.university }}</p>
+            
+            <form method="POST" action="{{ url_for('create_match') }}" style="display:flex; gap: 8px;">
+                <input type="hidden" name="their_skill_id" value="{{ s.id }}">
+                <button class="btn btn-primary" style="width: 100%;">Connect & Match</button>
+            </form>
+        </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p style="text-align: center; color: var(--muted); padding: 40px;">No results found. Try adjusting your search filters.</p>
+{% endif %}
+{% endblock %}

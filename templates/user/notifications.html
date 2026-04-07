@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="page-header" style="display: flex; justify-content: space-between; align-items: center;">
+    <h1 class="page-title">Notifications</h1>
+    {% if unread_notifications > 0 %}
+    <form method="POST" action="{{ url_for('mark_read') }}">
+        <button class="btn btn-outline" type="submit">Mark All as Read</button>
+    </form>
+    {% endif %}
+</div>
+
+<div class="card">
+    {% for n in notifications %}
+    <div style="padding: 16px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; {% if not n.is_read %}background: rgba(108,99,255,0.05);{% endif %}">
+        <div>
+            <h4 style="font-weight: 600; margin-bottom: 4px; display: flex; align-items: center; gap: 8px;">
+                {% if not n.is_read %}<span style="width: 8px; height: 8px; background: var(--primary); border-radius: 50%; display: inline-block;"></span>{% endif %}
+                {{ n.title }}
+            </h4>
+            <p style="color: var(--muted); font-size: 0.875rem;">{{ n.message }}</p>
+            <p style="color: #aaa; font-size: 0.75rem; margin-top: 4px;">{{ n.created_at|fmt_date }} at {{ n.created_at|fmt_time }}</p>
+        </div>
+        {% if n.action_url %}
+        <a href="{{ n.action_url }}" class="btn btn-sm btn-primary">View</a>
+        {% endif %}
+    </div>
+    {% else %}
+    <p style="color: var(--muted); text-align: center; padding: 20px;">No notifications yet.</p>
+    {% endfor %}
+</div>
+{% endblock %}

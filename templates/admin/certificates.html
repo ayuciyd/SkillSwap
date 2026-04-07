@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">Pending Certificates</h1>
+</div>
+
+{% if certificates %}
+<div class="grid-cols-2">
+    {% for cert in certificates %}
+    <div class="card" style="display: flex; flex-direction: column; gap: 15px;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h3 style="font-size: 1.25rem; font-weight: 600; color: var(--text);">{{ cert.full_name }}</h3>
+            <span class="badge" style="background: var(--warning); color: #fff;">PENDING</span>
+        </div>
+        
+        <div>
+            <strong style="color: var(--text-muted);">Skill Requested:</strong> 
+            <span style="color: var(--text);">{{ cert.skill_name }}</span>
+        </div>
+        
+        <div style="background: var(--surface-light); padding: 15px; border-radius: 8px; text-align: center;">
+            <a href="{{ url_for('static', filename='uploads/certificates/' + cert.file_path) }}" target="_blank" class="btn btn-outline" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                <i data-lucide="file-text" style="width: 16px; height: 16px;"></i> View Uploaded Certificate
+            </a>
+        </div>
+
+        <div style="display: flex; gap: 10px; margin-top: auto;">
+            <form method="POST" action="{{ url_for('admin_review_certificate', id=cert.id, action='approve') }}" style="flex:1;">
+                <button type="submit" class="btn btn-success" style="width: 100%;">Approve</button>
+            </form>
+            <form method="POST" action="{{ url_for('admin_review_certificate', id=cert.id, action='reject') }}" style="flex:1;">
+                <button type="submit" class="btn btn-error" style="width: 100%;">Reject</button>
+            </form>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="card" style="text-align: center; padding: 40px;">
+    <h3 style="color: var(--text-muted); margin-bottom: 10px;">No pending certificates</h3>
+    <p>All clear! Users haven't uploaded any new certificates for review.</p>
+</div>
+{% endif %}
+{% endblock %}

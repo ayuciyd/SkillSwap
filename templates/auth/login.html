@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block no_auth_content %}
+<div class="auth-wrapper">
+    <div class="auth-card">
+        <div class="auth-header">
+            <div class="navbar-brand brand-text" style="justify-content: center; display: flex; align-items: center; margin-bottom: 16px;"><img src="{{ url_for('static', filename='img/logo.png') }}" style="height: 48px; margin-right: 0px;" alt="Logo"> SkillSwap</div>
+            <h1>Welcome Back</h1>
+            <p>Enter your details to log in to your account</p>
+        </div>
+        <form method="POST" action="{{ url_for('login') }}">
+            <div class="form-group" style="text-align: left;">
+                <label class="form-label">Email Address</label>
+                <input type="email" name="email" class="form-control" required placeholder="john@example.com">
+            </div>
+            <div class="form-group" style="text-align: left;">
+                <label class="form-label">Password</label>
+                <input type="password" name="password" class="form-control" required placeholder="••••••••">
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 16px; padding: 12px;">Log In</button>
+        </form>
+        <p class="mt-6" style="color: var(--muted);">Don't have an account? <a href="{{ url_for('register') }}">Sign up here</a></p>
+    </div>
+</div>
+{% endblock %}

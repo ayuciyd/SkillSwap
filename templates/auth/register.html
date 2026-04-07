@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block no_auth_content %}
+<div class="auth-wrapper">
+    <div class="auth-card" style="max-width: 600px;">
+        <div class="auth-header">
+            <div class="navbar-brand brand-text" style="justify-content: center; display: flex; align-items: center; margin-bottom: 16px;"><img src="{{ url_for('static', filename='img/logo.png') }}" style="height: 48px; margin-right: 0px;" alt="Logo"> SkillSwap</div>
+            <h1>Create an Account</h1>
+            <p>Join the community and get 10 free credits!</p>
+        </div>
+        <form method="POST" action="{{ url_for('register') }}">
+            <div class="grid-cols-2">
+                <div class="form-group" style="text-align: left;">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" name="full_name" class="form-control" required placeholder="John Doe">
+                </div>
+                <div class="form-group" style="text-align: left;">
+                    <label class="form-label">Username</label>
+                    <input type="text" name="username" class="form-control" required placeholder="johndoe">
+                </div>
+            </div>
+            <div class="form-group" style="text-align: left;">
+                <label class="form-label">Email Address</label>
+                <input type="email" name="email" class="form-control" required placeholder="john@university.edu">
+            </div>
+            <div class="form-group" style="text-align: left;">
+                <label class="form-label">University / College</label>
+                <input type="text" name="university" class="form-control" placeholder="Harvard University">
+            </div>
+            <div class="form-group" style="text-align: left;">
+                <label class="form-label">Password</label>
+                <input type="password" name="password" class="form-control" required placeholder="••••••••">
+            </div>
+            
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 16px; padding: 12px;">Sign Up</button>
+        </form>
+        <p class="mt-6" style="color: var(--muted);">Already have an account? <a href="{{ url_for('login') }}">Log in here</a></p>
+    </div>
+</div>
+{% endblock %}

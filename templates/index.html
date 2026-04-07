@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block no_auth_content %}
+<div style="min-height: 100vh; display: flex; flex-direction: column;">
+    <header class="top-navbar" style="position: static; border-bottom: none; background: transparent;">
+        <div class="navbar-brand brand-text" style="display: flex; align-items: center; gap: 0px;">
+            <img src="{{ url_for('static', filename='img/logo.png') }}" style="height: 48px;" alt="Logo"> SkillSwap
+        </div>
+        <div class="nav-right">
+            <a href="{{ url_for('login') }}" class="btn btn-outline" style="border-color: rgba(255,255,255,0.2);">Log In</a>
+            <a href="{{ url_for('register') }}" class="btn btn-primary">Sign Up Free</a>
+        </div>
+    </header>
+    
+    <div style="flex: 1; display: flex; align-items: center; justify-content: center; text-align: center; padding: 60px 20px; position: relative; overflow: hidden;">
+        <!-- decorative bg gradients -->
+        <div style="position: absolute; top: 10%; left: 10%; width: 400px; height: 400px; background: rgba(79,70,229,0.3); filter: blur(100px); border-radius: 50%;"></div>
+        <div style="position: absolute; bottom: 10%; right: 10%; width: 400px; height: 400px; background: rgba(236,72,153,0.3); filter: blur(100px); border-radius: 50%;"></div>
+
+        <div style="position: relative; z-index: 10;">
+            <div class="badge badge-primary" style="margin-bottom: 24px; padding: 8px 16px; font-size: 0.875rem;">Welcome to the Future of EdTech</div>
+            <h1 style="font-size: 5rem; font-weight: 800; margin-bottom: 24px; line-height: 1.1;">
+                Swap Skills.<br><span class="text-gradient">Grow Together.</span>
+            </h1>
+            <p style="font-size: 1.25rem; color: var(--muted); max-width: 600px; margin: 0 auto 40px;">
+                The premium peer-to-peer skill exchange platform for university students. Swipe right on skills you want to learn, and teach what you know best.
+            </p>
+            <div style="display: flex; gap: 16px; justify-content: center;">
+                <a href="{{ url_for('register') }}" class="btn btn-primary" style="font-size: 1.125rem; padding: 16px 32px;">Explore Matches Now</a>
+                <a href="#how-it-works" class="btn btn-outline" style="font-size: 1.125rem; padding: 16px 32px; border-color: rgba(255,255,255,0.2);">How it Works</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="how-it-works" style="padding: 80px 20px; background: rgba(255,255,255,0.02);">
+    <div style="max-width: 1000px; margin: 0 auto; text-align: center;">
+        <h2 style="font-size: 2.5rem; font-weight: 800; margin-bottom: 48px;">How SkillSwap Works</h2>
+        
+        <div class="grid-cols-2" style="grid-template-columns: 1fr 1fr 1fr; gap: 32px;">
+            <div class="card" style="border: 1px solid rgba(255,255,255,0.1); background: transparent;">
+                <div class="stat-icon" style="margin: 0 auto 20px; width: 64px; height: 64px; background: rgba(79,70,229,0.2);"><i data-lucide="file-text" style="width: 32px; height: 32px;"></i></div>
+                <h3 style="font-size: 1.25rem; margin-bottom: 12px;">1. List Your Skills</h3>
+                <p style="color: var(--muted);">Add the skills you can teach and the ones you want to learn. Our smart AI maps out the taxonomy.</p>
+            </div>
+            
+            <div class="card" style="border: 1px solid rgba(255,255,255,0.1); background: transparent;">
+                <div class="stat-icon" style="margin: 0 auto 20px; width: 64px; height: 64px; background: rgba(236,72,153,0.2); color: var(--secondary);"><i data-lucide="flame" style="width: 32px; height: 32px;"></i></div>
+                <h3 style="font-size: 1.25rem; margin-bottom: 12px;">2. Swipe to Match</h3>
+                <p style="color: var(--muted);">Discover other students via our Tinder-style UI. Swipe right on skills that match your interest.</p>
+            </div>
+            
+            <div class="card" style="border: 1px solid rgba(255,255,255,0.1); background: transparent;">
+                <div class="stat-icon" style="margin: 0 auto 20px; width: 64px; height: 64px; background: rgba(16,185,129,0.2); color: var(--success);"><i data-lucide="star" style="width: 32px; height: 32px;"></i></div>
+                <h3 style="font-size: 1.25rem; margin-bottom: 12px;">3. Earn Credits</h3>
+                <p style="color: var(--muted);">Share skills and earn credits. Finish sessions to rank up the leaderboard!</p>
+            </div>
+        </div>
+</div>
+    </div>
+</div>
+
+<footer style="padding: 40px 20px; text-align: center; color: var(--muted); border-top: 1px solid rgba(255,255,255,0.05); margin-top: 40px;">
+    <p style="margin-bottom: 8px;">Contact us: <a href="mailto:skillswap050@gmail.com" style="color: var(--primary); text-decoration: none;">skillswap050@gmail.com</a></p>
+    <p style="font-size: 0.875rem;">&copy; 2026 SkillSwap. All rights reserved.</p>
+</footer>
+{% endblock %}

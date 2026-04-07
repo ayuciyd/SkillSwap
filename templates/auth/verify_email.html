@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Email - SkillSwap</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .auth-container {
+            max-width: 400px;
+            margin: 100px auto;
+            background: var(--surface);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+        .auth-logo { font-size: 2rem; font-weight: 700; color: var(--primary); margin-bottom: 20px; }
+        .auth-logo span { color: var(--text); }
+        h2 { font-size: 1.5rem; margin-bottom: 20px; color: var(--text); }
+        .form-group { text-align: left; }
+        .alert-box {
+            text-align: center; 
+            padding: 12px; 
+            border-radius: 8px; 
+            margin-bottom: 15px; 
+            color: white; 
+            font-weight: 500;
+        }
+        .alert-error, .alert-warning { background: var(--error); }
+        .alert-success { background: var(--success); }
+    </style>
+</head>
+<body class="dark-theme">
+    <div class="auth-container">
+        <div class="auth-logo">Skill<span>Swap</span></div>
+        <h2>Verify Your Email</h2>
+        <p style="color: var(--text-muted); margin-bottom: 20px;">We sent a 6-digit code to your email. Please enter it below.</p>
+        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert-box alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST">
+            <div class="form-group" style="display:none;">
+                <input type="email" id="email" name="email" class="form-control" value="{{ email }}" required readonly>
+            </div>
+            
+            <div class="form-group">
+                <label for="otp">Enter 6-Digit OTP</label>
+                <input type="text" id="otp" name="otp" class="form-control" placeholder="123456" maxlength="6" required autocomplete="off" style="text-align: center; font-size: 1.25rem; letter-spacing: 5px;">
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 20px;">Verify Identity</button>
+            <a href="{{ url_for('register') }}" class="btn btn-outline" style="width: 100%; margin-top: 10px; display: flex; justify-content: center; text-decoration: none;">Back to Sign Up</a>
+        </form>
+    </div>
+</body>
+</html>
