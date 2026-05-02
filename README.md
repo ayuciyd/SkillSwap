@@ -1,29 +1,31 @@
-# 🚀 SkillSwap
+# SkillSwap
 
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/)
 [![Flask](https://img.shields.io/badge/Flask-3.0.0-lightgrey.svg)](https://flask.palletsprojects.com/)
 [![MySQL](https://img.shields.io/badge/MySQL-Database-orange.svg)](https://www.mysql.com/)
 [![Deployment](https://img.shields.io/badge/Status-Live-success.svg)]()
 
-**SkillSwap** is a secure, server-side rendered, peer-to-peer skill exchange platform. Designed to facilitate high-quality knowledge sharing, the platform matches university students who want to learn a skill with those who want to teach it.
+## Abstract
+SkillSwap is a peer-to-peer web platform designed for college students to exchange skills without financial transactions. While traditional e-learning is one-directional and often costly, SkillSwap facilitates a reciprocal learning economy where students teach to earn "credits" and spend them to learn from others.
 
-Unlike standard platforms, SkillSwap acts as a complete ecosystem built without heavy UI frameworks, relying on highly optimized SQL and vanilla styling to achieve a modern, cohesive, and premium aesthetic.
+Built using Flask and MySQL, the platform features a smart matchmaking algorithm that uses bitwise operations to pair users based on skill compatibility, proficiency, and schedule overlap. To ensure security and fairness, the system incorporates Bcrypt authentication, OTP verification, and an escrow-based credit ledger that prevents fraud by holding credits until a session is confirmed. By combining a gesture-based discovery interface with gamification elements like leaderboards and badges, SkillSwap creates a trusted, engaging, and scalable ecosystem for collaborative education.
 
 ---
 
-## ✨ Key Features
+## Key Features
 
-- **Tinder-Style Swipe Interface:** Discover other students and their skills through an engaging, intuitive swipe-to-match UI.
+- **Gesture-Based Discovery Interface:** Discover other students and their educational offerings through an engaging, intuitive swipe-to-match UI designed for quick connections.
+- **Collaborative Education Economy:** A fully functional virtual credit system designed specifically for students. Teach a subject to earn credits, and spend those credits to be tutored by peers in other disciplines.
 - **Advanced Matchmaking AI:** Calculates compatibility using a dynamic 50-point base system, factoring in mutual exchange requests, skill level gaps, logistics, and bitmask-based schedule overlapping for high-performance query execution.
-- **Escrowed Virtual Economy:** Incorporates an immutable double-entry ledger system where users trade credits to book sessions, mitigating spam and enforcing platform accountability.
-- **Premium Responsive UI/UX:** Built with a custom, mobile-first design system featuring fluid layouts, interactive micro-animations, glassmorphism elements, and modern typography—all achieved with zero external CSS frameworks.
+- **Escrowed Virtual Ledger:** Incorporates an immutable double-entry ledger system where users trade credits to book educational sessions, mitigating spam and enforcing academic accountability.
+- **Premium Responsive UI/UX:** Built with a custom, mobile-first design system featuring fluid layouts, interactive micro-animations, glassmorphism elements, and modern typography—achieved entirely without external CSS frameworks.
 - **Robust Security Architecture:** Implements bcrypt password hashing, real-time OTP email verification via SMTP, secure environment variable configuration, and strict account lockout mechanisms (15-minute lockouts after 3 failed attempts) to protect against brute-force attacks.
 - **Dynamic ID & Notification Systems:** Features custom, readable unique ID generation (e.g., `USR-STU-2024-00001`) alongside a global context-processed real-time notification engine.
-- **Comprehensive Admin Dashboard:** Powerful analytics and moderation tooling to review certificates, manage sessions, and oversee transactions.
+- **Comprehensive Admin Dashboard:** Powerful analytics and moderation tooling to review academic certificates, manage tutoring sessions, and oversee credit transactions.
 
 ---
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 - **Backend:** Python, Flask, Jinja2
 - **Database:** MySQL (Flask-MySQLdb)
@@ -32,7 +34,7 @@ Unlike standard platforms, SkillSwap acts as a complete ecosystem built without 
 
 ---
 
-## ⚙️ Local Development Setup
+## Local Development Setup
 
 ### 1. Clone the Repository
 ```bash
@@ -77,7 +79,7 @@ Access the platform at `http://127.0.0.1:5001/` (or the port specified in your c
 
 ---
 
-## 🚀 Deployment (Production)
+## Deployment (Production)
 
 SkillSwap is fully configured for cloud deployments (e.g., Render, Heroku). 
 - **Database:** Use a managed MySQL database (like Railway).
@@ -85,7 +87,7 @@ SkillSwap is fully configured for cloud deployments (e.g., Render, Heroku).
 
 ---
 
-## 📬 Contact & Support
+## Contact & Support
 
 For inquiries, support, or further information regarding the SkillSwap project, please contact:
 - **Email:** [skillswap050@gmail.com](mailto:skillswap050@gmail.com)
