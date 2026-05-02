@@ -268,10 +268,8 @@ def register():
         except Exception as e:
             try: socket.setdefaulttimeout(old_timeout)
             except: pass
-            session.pop('pending_registration', None)
-            flash("Failed to send OTP email. Please try again later.", "error")
+            flash(f"Registration step 1 complete, but email failed. Your OTP is: {otp}", "warning")
             print(f"OTP Email failure: {e}")
-            return redirect(url_for('register'))
             
         return redirect(url_for('verify_email'))
         
@@ -387,9 +385,8 @@ def forgot_password():
                 except Exception as e:
                     try: socket.setdefaulttimeout(old_timeout)
                     except: pass
-                    flash("Failed to send OTP email. Please try again later.", "error")
+                    flash(f"Failed to send email. Your OTP is: {otp}", "warning")
                     print(f"OTP Email failure: {e}")
-                    return redirect(url_for('forgot_password'))
                 
                 session['reset_email'] = email
                 return redirect(url_for('reset_password'))
