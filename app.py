@@ -255,11 +255,17 @@ def register():
             record_transaction(cursor, user_id, 'signup_bonus', 10, 'Signup Bonus')
             
         try:
+            import socket
+            old_timeout = socket.getdefaulttimeout()
+            socket.setdefaulttimeout(5.0)
             msg = Message("Your SkillSwap OTP", recipients=[email])
             msg.body = f"Hello {full_name},\n\nYour OTP for SkillSwap is {otp}. It is valid for 10 minutes."
             mail.send(msg)
+            socket.setdefaulttimeout(old_timeout)
             flash("Registration successful! Please check your email for the OTP.", "success")
         except Exception as e:
+            try: socket.setdefaulttimeout(old_timeout)
+            except: pass
             flash(f"Registration successful, but failed to send email. OTP is {otp}", "warning")
             print(f"OTP Email failure: {e}")
             
@@ -366,11 +372,17 @@ def forgot_password():
                 cursor.execute("UPDATE users SET otp_code=%s, otp_expires_at=%s WHERE id=%s", (otp, otp_exp, user['id']))
                 
                 try:
+                    import socket
+                    old_timeout = socket.getdefaulttimeout()
+                    socket.setdefaulttimeout(5.0)
                     msg = Message("SkillSwap Password Reset OTP", recipients=[email])
                     msg.body = f"Hello {user['full_name']},\n\nYour OTP to reset your password is {otp}. It is valid for 10 minutes."
                     mail.send(msg)
+                    socket.setdefaulttimeout(old_timeout)
                     flash("An OTP has been sent to your email address.", "success")
                 except Exception as e:
+                    try: socket.setdefaulttimeout(old_timeout)
+                    except: pass
                     flash(f"Failed to send email. OTP is {otp}", "warning")
                     print(f"OTP Email failure: {e}")
                 
@@ -504,12 +516,18 @@ def my_skills():
                     """, (cert_id, uid, skill_id, filename))
                     
                     try:
+                        import socket
+                        old_timeout = socket.getdefaulttimeout()
+                        socket.setdefaulttimeout(5.0)
                         msg = Message("New Certificate Uploaded - SkillSwap Admin", 
                                       sender=app.config['MAIL_DEFAULT_SENDER'], 
                                       recipients=["skillswap050@gmail.com"])
                         msg.body = f"Hello Admin,\n\nA new certificate has been uploaded by user ID {uid} for the skill '{skill_name}'.\nPlease log in to the admin panel to verify it.\n\nBest,\nSkillSwap System"
                         mail.send(msg)
+                        socket.setdefaulttimeout(old_timeout)
                     except Exception as e:
+                        try: socket.setdefaulttimeout(old_timeout)
+                        except: pass
                         print(f"Failed to send email to admin: {e}")
                 else:
                     flash("Certificate is required for teaching skills. Your skill is currently inactive.", "warning")
