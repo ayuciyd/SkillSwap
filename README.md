@@ -81,9 +81,9 @@ Access the platform at `http://127.0.0.1:5001/` (or the port specified in your c
 
 ## Deployment (Production)
 
-SkillSwap is fully configured for cloud deployments (e.g., Render, Heroku). 
-- **Database:** Use a managed MySQL database (like Railway).
-- **Environment Variables:** Define all variables listed in the `.env` step directly within your hosting provider's dashboard to keep secrets out of the codebase.
+SkillSwap is fully configured for cloud deployments using Railway. 
+- **Application & Database:** You can host both the web service and the MySQL database within the same Railway project for fast, internal networking.
+- **Environment Variables:** Define all variables listed in the `.env` step directly within your Railway project's variables panel to keep secrets out of the codebase.
 
 ---
 
