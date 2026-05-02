@@ -58,8 +58,3 @@ Unlike standard platforms, SkillSwap acts as a complete ecosystem built without 
 For inquiries, support, or further information regarding the SkillSwap project, please contact:
 **Email:** skillswap050@gmail.com
 
-## Default Credentials
-
-- **Admin Access:**
-  - Email: `admin@skillswap.io`
-  - Password: `Admin@123`
