@@ -1027,6 +1027,9 @@ def admin_users():
 @admin_required
 def admin_delete_user(id):
     with get_db_cursor(mysql) as cursor:
+        cursor.execute("DELETE FROM credit_transactions WHERE user_id=%s", (id,))
+        cursor.execute("DELETE FROM sessions WHERE teacher_id=%s OR learner_id=%s", (id, id))
+        cursor.execute("DELETE FROM certificates WHERE user_id=%s", (id,))
         cursor.execute("DELETE FROM users WHERE id=%s", (id,))
     flash("User deleted.", "success")
     return redirect(url_for('admin_users'))
