@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block no_auth_content %}
+<div class="auth-wrapper">
+    <div class="auth-card">
+        <div class="auth-header">
+            <div class="navbar-brand brand-text" style="justify-content: center; display: flex; align-items: center; margin-bottom: 16px;"><img src="{{ url_for('static', filename='img/logo.png') }}" style="height: 48px; margin-right: 0px;" alt="Logo"> SkillSwap</div>
+            <h1>Verify Your Email</h1>
+            <p>We sent a 6-digit code to your email. Please enter it below.</p>
+        </div>
+        <form method="POST">
+            <div class="form-group" style="display:none;">
+                <input type="email" id="email" name="email" class="form-control" value="{{ email }}" required readonly>
+            </div>
+            
+            <div class="form-group" style="text-align: left;">
+                <label class="form-label" for="otp">Enter 6-Digit OTP</label>
+                <input type="text" id="otp" name="otp" class="form-control" placeholder="123456" maxlength="6" required autocomplete="off" style="text-align: center; font-size: 1.25rem; letter-spacing: 5px;">
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 16px; padding: 12px;">Verify Identity</button>
+            <p class="mt-4" style="color: var(--muted);"><a href="{{ url_for('register') }}">Back to Sign Up</a></p>
+        </form>
+    </div>
+</div>
+{% endblock %}

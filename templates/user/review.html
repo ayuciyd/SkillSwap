@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">Leave a Review</h1>
+    <p class="page-subtitle">Share your experience to help the community.</p>
+</div>
+
+<div class="auth-wrapper" style="min-height: auto; padding: 0;">
+    <div class="auth-card" style="margin: 0 auto;">
+        <form method="POST" action="{{ url_for('review', session_id=session_id) }}">
+            <div class="form-group" style="text-align: left;">
+                <label class="form-label">Rating (1 to 5 Stars)</label>
+                <select name="rating" class="form-control" required style="font-size: 1.5rem;">
+                    <option value="5">5 Stars (Excellent)</option>
+                    <option value="4">4 Stars (Very Good)</option>
+                    <option value="3">3 Stars (Average)</option>
+                    <option value="2">2 Stars (Poor)</option>
+                    <option value="1">1 Star (Terrible)</option>
+                </select>
+            </div>
+            
+            <div class="form-group" style="text-align: left;">
+                <label class="form-label">Review Comment</label>
+                <textarea name="comment" class="form-control" rows="4" placeholder="How was the session? Was the instructor clear?"></textarea>
+            </div>
+            
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Submit Review</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

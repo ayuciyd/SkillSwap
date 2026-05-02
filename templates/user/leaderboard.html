@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">Community Leaderboard</h1>
+</div>
+
+<div class="grid-cols-2">
+    <!-- Top Sessions -->
+    <div class="card">
+        <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 20px; color: var(--primary); display: flex; align-items: center; gap: 8px;"><i data-lucide="award" style="width: 24px; height: 24px;"></i> Most Active Teachers</h2>
+        <table style="width: 100%; border-collapse: separate; border-spacing: 0 8px;">
+            {% for u in top_sessions %}
+            <tr style="background: var(--bg); border-radius: 8px;">
+                <td style="padding: 12px; font-weight: bold; width: 40px; text-align: center;">
+                    {% if loop.index == 1 %}1st{% elif loop.index == 2 %}2nd{% elif loop.index == 3 %}3rd{% else %}{{ loop.index }}th{% endif %}
+                </td>
+                <td style="padding: 12px;">
+                    <div style="font-weight: 600;">{{ u.full_name }}</div>
+                    <div style="font-size: 0.75rem; color: var(--muted);">{{ u.university }}</div>
+                </td>
+                <td style="padding: 12px; text-align: right; font-weight: bold; color: var(--primary);">
+                    {{ u.sessions_completed }} sessions
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <!-- Top Ratings -->
+    <div class="card">
+        <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 20px; color: var(--warning); display: flex; align-items: center; gap: 8px;"><i data-lucide="star" style="width: 24px; height: 24px;"></i> Highest Rated</h2>
+        <table style="width: 100%; border-collapse: separate; border-spacing: 0 8px;">
+            {% for u in top_rating if u.sessions_completed > 0 %}
+            <tr style="background: var(--bg); border-radius: 8px;">
+                <td style="padding: 12px; font-weight: bold; width: 40px; text-align: center;">
+                    {% if loop.index == 1 %}1st{% elif loop.index == 2 %}2nd{% elif loop.index == 3 %}3rd{% else %}{{ loop.index }}th{% endif %}
+                </td>
+                <td style="padding: 12px;">
+                    <div style="font-weight: 600;">{{ u.full_name }}</div>
+                    <div style="font-size: 0.75rem; color: var(--muted);">{{ u.university }}</div>
+                </td>
+                <td style="padding: 12px; text-align: right; font-weight: bold; color: var(--warning);">
+                    {{ "%.1f"|format(u.avg_rating) }} ★
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <!-- Highest Earners (Credits) -->
+    <div class="card" style="grid-column: 1 / -1;">
+        <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 20px; color: var(--success); display: flex; align-items: center; gap: 8px;"><i data-lucide="banknote" style="width: 24px; height: 24px;"></i> Top Credit Earners</h2>
+        <table style="width: 100%; border-collapse: separate; border-spacing: 0 8px;">
+            {% for u in top_credits %}
+            <tr style="background: var(--bg); border-radius: 8px;">
+                <td style="padding: 12px; font-weight: bold; width: 40px; text-align: center;">
+                    {% if loop.index == 1 %}1st{% elif loop.index == 2 %}2nd{% elif loop.index == 3 %}3rd{% else %}{{ loop.index }}th{% endif %}
+                </td>
+                <td style="padding: 12px;">
+                    <div style="font-weight: 600;">{{ u.full_name }}</div>
+                </td>
+                <td style="padding: 12px; text-align: right; font-weight: bold; color: var(--success);">
+                    {{ u.credits_earned }} credits
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock %}

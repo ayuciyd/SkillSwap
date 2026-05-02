@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">Credit Transactions Log</h1>
+</div>
+<div class="card">
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>User</th>
+                    <th>Type</th>
+                    <th>Amount</th>
+                    <th>New Balance</th>
+                    <th>Reference</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for t in transactions %}
+                <tr>
+                    <td style="font-size: 0.875rem; color: var(--muted);">{{ t.created_at|fmt_date }} {{ t.created_at|fmt_time }}</td>
+                    <td style="font-weight: 600;">{{ t.full_name }}</td>
+                    <td><span class="badge badge-muted">{{ t.tx_type }}</span></td>
+                    <td style="font-weight: 800; color: {% if t.amount > 0 %}var(--success){% else %}var(--secondary){% endif %};">
+                        {% if t.amount > 0 %}+{% endif %}{{ t.amount }}
+                    </td>
+                    <td>{{ t.balance_after }}</td>
+                    <td style="font-size: 0.875rem;">{{ t.reference_note or '-' }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

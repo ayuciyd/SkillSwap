@@ -1,0 +1,13 @@
+<svg viewBox="30 0 180 200" width="100%" height="100%" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Dark Blue Arrow (Top Half) -->
+  <g>
+    <path d="M 130 130 C 130 100, 50 100, 50 70 A 50 50 0 0 1 150 70 L 180 70" stroke="#142B49" stroke-width="24" stroke-linecap="round" />
+    <polygon points="160,50 160,90 196,70" fill="#142B49" stroke="#142B49" stroke-width="6" stroke-linejoin="round" />
+  </g>
+  
+  <!-- Light Blue Arrow (Bottom Half) -->
+  <g transform="rotate(180, 120, 100)">
+    <path d="M 130 130 C 130 100, 50 100, 50 70 A 50 50 0 0 1 150 70 L 180 70" stroke="#398DEC" stroke-width="24" stroke-linecap="round" />
+    <polygon points="160,50 160,90 196,70" fill="#398DEC" stroke="#398DEC" stroke-width="6" stroke-linejoin="round" />
+  </g>
+</svg>

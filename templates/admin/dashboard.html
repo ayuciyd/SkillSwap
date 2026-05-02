@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">Admin Dashboard</h1>
+</div>
+
+<div class="stats-grid">
+    <div class="card stat-card">
+        <div class="stat-icon" style="color: var(--primary); background: rgba(108, 99, 255, 0.1);"><i data-lucide="users" style="width: 28px; height: 28px;"></i></div>
+        <div class="stat-info">
+            <h3>{{ tot_users }}</h3>
+            <p>Total Students</p>
+        </div>
+    </div>
+    <div class="card stat-card">
+        <div class="stat-icon" style="color: var(--success); background: rgba(67, 184, 156, 0.1);"><i data-lucide="link" style="width: 28px; height: 28px;"></i></div>
+        <div class="stat-info">
+            <h3>{{ tot_matches }}</h3>
+            <p>Total Matches</p>
+        </div>
+    </div>
+    <div class="card stat-card">
+        <div class="stat-icon" style="color: var(--secondary); background: rgba(255, 101, 132, 0.1);"><i data-lucide="calendar" style="width: 28px; height: 28px;"></i></div>
+        <div class="stat-info">
+            <h3>{{ tot_sessions }}</h3>
+            <p>Sessions Completed</p>
+        </div>
+    </div>
+    <div class="card stat-card">
+        <div class="stat-icon" style="color: var(--warning); background: rgba(255, 179, 71, 0.1);"><i data-lucide="coins" style="width: 28px; height: 28px;"></i></div>
+        <div class="stat-info">
+            <h3>{{ circulating }}</h3>
+            <p>Circulating Credits</p>
+        </div>
+    </div>
+</div>
+
+<div class="grid-cols-2">
+    <div class="card">
+        <h2 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 20px;">Sessions by Category</h2>
+        <canvas id="categoryChart"></canvas>
+    </div>
+    
+    <div class="card">
+        <h2 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 20px;">Recent Platform Activity</h2>
+        <div style="max-height: 400px; overflow-y: auto;">
+            {% for event in feed %}
+            <div style="border-bottom: 1px solid var(--border); padding: 12px 0;">
+                <div style="font-size: 0.75rem; color: var(--muted); margin-bottom: 4px;">{{ event.created_at|fmt_date }} {{ event.created_at|fmt_time }}</div>
+                <div style="font-weight: 600;">{{ event.title }}</div>
+                <div style="font-size: 0.875rem;">{{ event.message }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block scripts %}
+<script>
+    const ctx = document.getElementById('categoryChart').getContext('2d');
+    const labels = [{% for c in cat_stats %}'{{ c.name }}',{% endfor %}];
+    const data = [{% for c in cat_stats %}{{ c.count }},{% endfor %}];
+    
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Sessions',
+                data: data,
+                backgroundColor: 'rgba(108, 99, 255, 0.6)',
+                borderColor: 'rgba(108, 99, 255, 1)',
+                borderWidth: 1,
+                borderRadius: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: { beginAtZero: true, ticks: { precision: 0 } }
+            }
+        }
+    });
+</script>
+{% endblock %}

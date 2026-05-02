@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">Manage Users</h1>
+</div>
+<div class="card">
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID / Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Credits</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for u in users %}
+                <tr>
+                    <td>
+                        <div style="font-weight: 600;">{{ u.full_name }}</div>
+                        <div style="font-size: 0.75rem; color: var(--muted);">{{ u.id }}</div>
+                    </td>
+                    <td>{{ u.email }}</td>
+                    <td><span class="badge {% if u.role == 'admin' %}badge-secondary{% else %}badge-primary{% endif %}">{{ u.role.upper() }}</span></td>
+                    <td style="font-weight: bold; color: var(--success);">{{ u.credits_balance }}</td>
+                    <td><span class="badge {% if u.is_active %}badge-success{% else %}badge-muted{% endif %}">{% if u.is_active %}Active{% else %}Inactive{% endif %}</span></td>
+                    <td>
+                        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                            <form method="POST" action="{{ url_for('admin_toggle_admin', id=u.id) }}">
+                                <button class="btn btn-sm btn-outline">Toggle Role</button>
+                            </form>
+                            <form method="POST" action="{{ url_for('admin_grant_credits', id=u.id) }}" style="display:flex; gap: 4px;">
+                                <input type="number" name="amount" placeholder="+/-" style="width: 60px; padding: 4px;" class="form-control">
+                                <button class="btn btn-sm btn-primary">Adjsut</button>
+                            </form>
+                            <button type="button" class="btn btn-sm" style="background: red; color: white;" onclick="confirmDeleteUser('{{ url_for('admin_delete_user', id=u.id) }}')">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Custom Delete User Modal -->
+<div id="deleteUserModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; align-items:center; justify-content:center;">
+    <div class="card" style="max-width: 400px; margin: 0 20px; text-align: center; padding: 32px;">
+        <div style="color: #E11D48; margin-bottom: 16px;">
+            <i data-lucide="alert-triangle" style="width: 48px; height: 48px;"></i>
+        </div>
+        <h2 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 16px;">Delete User?</h2>
+        <p style="color: var(--muted); margin-bottom: 24px;">WARNING: This will cascade delete their skills, matches, and sessions. Proceed?</p>
+        <form id="deleteUserForm" method="POST" action="">
+            <div style="display:flex; gap:12px; justify-content:center;">
+                <button type="button" class="btn btn-outline" onclick="closeDeleteUserModal()">Cancel</button>
+                <button type="submit" class="btn btn-danger">Yes, Delete</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function confirmDeleteUser(url) {
+        document.getElementById('deleteUserForm').action = url;
+        document.getElementById('deleteUserModal').style.display = 'flex';
+    }
+    function closeDeleteUserModal() {
+        document.getElementById('deleteUserModal').style.display = 'none';
+    }
+</script>
+{% endblock %}
