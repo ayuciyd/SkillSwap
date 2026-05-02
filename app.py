@@ -243,16 +243,18 @@ def register():
                 flash("Username or email already exists.", "error")
                 return redirect(url_for('register'))
             
-            user_id = generate_id(mysql, 'USR', 'STU', cursor=cursor)
             otp = ''.join(random.choices(string.digits, k=6))
             otp_exp = datetime.datetime.now() + datetime.timedelta(minutes=10)
             
-            cursor.execute("""
-                INSERT INTO users (id, full_name, username, email, password_hash, role, credits_balance, university, email_verified, otp_code, otp_expires_at)
-                VALUES (%s, %s, %s, %s, %s, 'student', 10, %s, 0, %s, %s)
-            """, (user_id, full_name, username, email, pass_hash, university, otp, otp_exp))
-            
-            record_transaction(cursor, user_id, 'signup_bonus', 10, 'Signup Bonus')
+            session['pending_registration'] = {
+                'full_name': full_name,
+                'username': username,
+                'email': email,
+                'password_hash': pass_hash,
+                'university': university,
+                'otp_code': otp,
+                'otp_expires_at': otp_exp.timestamp()
+            }
             
         try:
             import socket
@@ -262,14 +264,15 @@ def register():
             msg.body = f"Hello {full_name},\n\nYour OTP for SkillSwap is {otp}. It is valid for 10 minutes."
             mail.send(msg)
             socket.setdefaulttimeout(old_timeout)
-            flash("Registration successful! Please check your email for the OTP.", "success")
+            flash("Registration step 1 complete! Please check your email for the OTP.", "success")
         except Exception as e:
             try: socket.setdefaulttimeout(old_timeout)
             except: pass
-            flash(f"Registration successful, but failed to send email. OTP is {otp}", "warning")
+            session.pop('pending_registration', None)
+            flash("Failed to send OTP email. Please try again later.", "error")
             print(f"OTP Email failure: {e}")
+            return redirect(url_for('register'))
             
-        session['unverified_email'] = email
         return redirect(url_for('verify_email'))
         
     return render_template('auth/register.html')
@@ -293,11 +296,7 @@ def login():
                     return render_template('auth/login.html')
 
                 if bcrypt.check_password_hash(user['password_hash'], password):
-                    is_verified = user.get('email_verified')
-                    if is_verified in (0, False, b'\x00', '0'):
-                        flash("Please verify your email address first.", "warning")
-                        session['unverified_email'] = user['email']
-                        return redirect(url_for('verify_email'))
+                    # User is fully verified if they exist.
 
                     session['user_id'] = user['id']
                     session['role'] = user['role']
@@ -326,36 +325,41 @@ def login():
 @app.route('/verify-email', methods=['GET', 'POST'])
 def verify_email():
     if request.method == 'POST':
-        email = request.form.get('email', '')
         otp = request.form.get('otp', '')
-        redirect_to_login = False
         
-        with get_db_cursor(mysql) as cursor:
-            cursor.execute("SELECT * FROM users WHERE email=%s", (email,))
-            user = cursor.fetchone()
+        pending = session.get('pending_registration')
+        if not pending:
+            flash("No pending registration found. Please register.", "error")
+            return redirect(url_for('register'))
             
-            if user:
-                # Handle possible integer, boolean, or byte representations of TINYINT
-                is_verified = user.get('email_verified')
-                if is_verified in (1, True, b'\x01', '1'):
-                    flash("Email already verified. You can log in.", "success")
-                    redirect_to_login = True
-                elif str(user.get('otp_code')) == str(otp):
-                    if user['otp_expires_at'] and user['otp_expires_at'] > datetime.datetime.now():
-                        cursor.execute("UPDATE users SET email_verified=1, otp_code=NULL, otp_expires_at=NULL WHERE id=%s", (user['id'],))
-                        flash("Email verified successfully! You can now log in.", "success")
-                        redirect_to_login = True
-                    else:
-                        flash("OTP has expired. Please register again.", "error")
-                else:
-                    flash("Invalid OTP. Please try again.", "error")
-            else:
-                flash("User not found.", "error")
+        if datetime.datetime.now().timestamp() > pending['otp_expires_at']:
+            session.pop('pending_registration', None)
+            flash("OTP has expired. Please register again.", "error")
+            return redirect(url_for('register'))
+            
+        if str(pending['otp_code']) == str(otp):
+            with get_db_cursor(mysql) as cursor:
+                cursor.execute("SELECT id FROM users WHERE username=%s OR email=%s", (pending['username'], pending['email']))
+                if cursor.fetchone():
+                    session.pop('pending_registration', None)
+                    flash("Username or email was taken while you were verifying. Please register again.", "error")
+                    return redirect(url_for('register'))
+                    
+                user_id = generate_id(mysql, 'USR', 'STU', cursor=cursor)
+                cursor.execute("""
+                    INSERT INTO users (id, full_name, username, email, password_hash, role, credits_balance, university, email_verified)
+                    VALUES (%s, %s, %s, %s, %s, 'student', 10, %s, 1)
+                """, (user_id, pending['full_name'], pending['username'], pending['email'], pending['password_hash'], pending['university']))
                 
-        if redirect_to_login:
+                record_transaction(cursor, user_id, 'signup_bonus', 10, 'Signup Bonus')
+                
+            session.pop('pending_registration', None)
+            flash("Email verified successfully! You can now log in.", "success")
             return redirect(url_for('login'))
-                
-    email = session.get('unverified_email', '')
+        else:
+            flash("Invalid OTP. Please try again.", "error")
+            
+    email = session.get('pending_registration', {}).get('email', '')
     return render_template('auth/verify_email.html', email=email)
 
 @app.route('/forgot-password', methods=['GET', 'POST'])
@@ -383,8 +387,9 @@ def forgot_password():
                 except Exception as e:
                     try: socket.setdefaulttimeout(old_timeout)
                     except: pass
-                    flash(f"Failed to send email. OTP is {otp}", "warning")
+                    flash("Failed to send OTP email. Please try again later.", "error")
                     print(f"OTP Email failure: {e}")
+                    return redirect(url_for('forgot_password'))
                 
                 session['reset_email'] = email
                 return redirect(url_for('reset_password'))
