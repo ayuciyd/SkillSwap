@@ -1140,14 +1140,18 @@ def admin_review_certificate(id, action):
         cursor.execute("SELECT * FROM certificates WHERE id=%s", (id,))
         cert = cursor.fetchone()
         if cert:
+            cursor.execute("SELECT skill_name FROM skills WHERE id=%s", (cert['skill_id'],))
+            skill = cursor.fetchone()
+            skill_name = skill['skill_name'] if skill else 'your skill'
+            
             cursor.execute("UPDATE certificates SET status=%s, reviewed_by=%s, reviewed_at=CURRENT_TIMESTAMP WHERE id=%s", (status, session['user_id'], id))
             if status == 'approved':
                 cursor.execute("UPDATE skills SET is_active=1 WHERE id=%s", (cert['skill_id'],))
                 # Optionally mark user as verified globally
                 cursor.execute("UPDATE users SET is_verified=1 WHERE id=%s", (cert['user_id'],))
-                create_notification(cursor, cert['user_id'], 'admin_message', 'Certificate Approved', f"Your certificate for {cert['skill_id']} has been approved!")
+                create_notification(cursor, cert['user_id'], 'admin_message', 'Certificate Approved', f"Your certificate for '{skill_name}' has been approved!")
             else:
-                create_notification(cursor, cert['user_id'], 'admin_message', 'Certificate Rejected', f"Your certificate for {cert['skill_id']} was rejected. Please re-upload.")
+                create_notification(cursor, cert['user_id'], 'admin_message', 'Certificate Rejected', f"Your certificate for '{skill_name}' was rejected. Please re-upload.")
                 
     flash(f"Certificate {status}.", "success")
     return redirect(url_for('admin_certificates'))
