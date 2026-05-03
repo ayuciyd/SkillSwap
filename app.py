@@ -517,9 +517,16 @@ def my_skills():
                         VALUES (%s, %s, %s, %s, 'pending')
                     """, (cert_id, uid, skill_id, filename))
                     
+                    create_notification(cursor, uid, 'cert_pending', 'Certificate Pending', f"Your certificate for '{skill_name}' has been uploaded and is pending admin approval.", '/skills')
+                    
                     cursor.execute("SELECT full_name FROM users WHERE id=%s", (uid,))
                     user_row = cursor.fetchone()
                     user_name = user_row['full_name'] if user_row else uid
+                    
+                    cursor.execute("SELECT id FROM users WHERE role='admin'")
+                    for admin in cursor.fetchall():
+                        create_notification(cursor, admin['id'], 'admin_cert_pending', 'New Certificate to Review', f"User '{user_name}' uploaded a new certificate for '{skill_name}'.", '/admin_dashboard')
+                        
                     
                     try:
                         import socket
