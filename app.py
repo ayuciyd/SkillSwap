@@ -517,6 +517,10 @@ def my_skills():
                         VALUES (%s, %s, %s, %s, 'pending')
                     """, (cert_id, uid, skill_id, filename))
                     
+                    cursor.execute("SELECT full_name FROM users WHERE id=%s", (uid,))
+                    user_row = cursor.fetchone()
+                    user_name = user_row['full_name'] if user_row else uid
+                    
                     try:
                         import socket
                         old_timeout = socket.getdefaulttimeout()
@@ -524,7 +528,7 @@ def my_skills():
                         msg = Message("New Certificate Uploaded - SkillSwap Admin", 
                                       sender=app.config['MAIL_DEFAULT_SENDER'], 
                                       recipients=["skillswap050@gmail.com"])
-                        msg.body = f"Hello Admin,\n\nA new certificate has been uploaded by user ID {uid} for the skill '{skill_name}'.\nPlease log in to the admin panel to verify it.\n\nBest,\nSkillSwap System"
+                        msg.body = f"Hello Admin,\n\nA new certificate has been uploaded by user '{user_name}' for the skill '{skill_name}'.\nPlease log in to the admin panel to verify it.\n\nBest,\nSkillSwap System"
                         mail.send(msg)
                         socket.setdefaulttimeout(old_timeout)
                     except Exception as e:
