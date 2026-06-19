@@ -24,6 +24,13 @@ Built using Flask and MySQL, the platform features a smart matchmaking algorithm
 - **Comprehensive Admin Dashboard:** Powerful analytics and moderation tooling to review academic certificates, manage tutoring sessions, and oversee credit transactions.
 
 ---
+<img width="1918" height="832" alt="1" src="https://github.com/user-attachments/assets/60d8ab0a-f202-4511-9397-d712e5d69761" />
+<img width="1917" height="832" alt="2" src="https://github.com/user-attachments/assets/b346a19c-ca1c-41e9-bc9d-3899818b0c11" />
+<img width="1918" height="831" alt="4" src="https://github.com/user-attachments/assets/64c7629f-a9c5-4fbd-bd5c-0cfa51dd5a20" />
+<img width="1918" height="828" alt="5" src="https://github.com/user-attachments/assets/7f27e9f7-55c8-4f2a-ae03-6b5754d1515c" />
+<img width="1918" height="830" alt="6" src="https://github.com/user-attachments/assets/16abacf5-ab20-44ce-82c7-102b10603069" />
+
+
 
 ## Technology Stack
 
