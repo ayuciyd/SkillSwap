@@ -1,35 +1,35 @@
 {% extends "base.html" %}
 {% block content %}
 <!-- Welcome Banner -->
-<div class="card" style="background: linear-gradient(135deg, var(--primary), #3b82f6); border: none; padding: 40px; margin-bottom: 32px; border-radius: 20px; color: white; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 10px 30px rgba(79, 70, 229, 0.25);">
+<div class="card" style="background: #DBEAFE; border: 1.5px solid rgba(30, 58, 138, 0.15); padding: 24px; margin-bottom: 20px; border-radius: 12px; color: #1E3A8A; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 15px rgba(30, 58, 138, 0.05);">
     <div>
-        <h1 style="font-size: 2.25rem; font-weight: 800; margin-bottom: 12px; line-height: 1.2;">Welcome back,<br>{{ current_user.full_name }}</h1>
-        <p style="font-size: 1.1rem; opacity: 0.9; max-width: 450px;">You currently have <strong>{{ current_user.credits_balance }} credits</strong>. Complete teaching sessions to rank up and earn more!</p>
+        <h1 style="font-size: 1.75rem; font-weight: 800; margin-bottom: 8px; line-height: 1.2; color: #1E3A8A;">Welcome back,<br>{{ current_user.full_name }}</h1>
+        <p style="font-size: 1rem; opacity: 0.95; max-width: 450px; color: #1E293B;">You currently have <strong>{{ current_user.credits_balance }} credits</strong>. Complete teaching sessions to rank up and earn more!</p>
     </div>
-    <div style="display:flex; gap: 16px; flex-wrap: wrap;">
-        <a href="{{ url_for('matches') }}" class="btn" style="background: white; color: var(--primary); font-weight: 700; padding: 12px 24px;">Launch Matchmaker</a>
-        <a href="{{ url_for('browse') }}" class="btn btn-outline" style="border-color: rgba(255,255,255,0.4); color: white; padding: 12px 24px;">Browse Directory</a>
+    <div style="display:flex; gap: 12px; flex-wrap: wrap;">
+        <a href="{{ url_for('matches') }}" class="btn btn-primary" style="padding: 10px 20px; font-weight: 700;">Launch Matchmaker</a>
+        <a href="{{ url_for('browse') }}" class="btn btn-outline" style="border-color: var(--primary); padding: 10px 20px; font-weight: 700;">Browse Directory</a>
     </div>
 </div>
 
 <!-- Key Metrics Row -->
 <div class="stats-grid">
     <div class="card stat-card">
-        <div class="stat-icon" style="color: var(--success); background: rgba(16,185,129,0.1);"><i data-lucide="users" style="width: 28px; height: 28px;"></i></div>
+        <div class="stat-icon" style="color: var(--success); background: rgba(16,185,129,0.1);"><i data-lucide="users" style="width: 20px; height: 20px;"></i></div>
         <div class="stat-info">
             <h3>{{ active_matches }}</h3>
             <p>Active Connections</p>
         </div>
     </div>
     <div class="card stat-card">
-        <div class="stat-icon" style="color: var(--warning); background: rgba(245,158,11,0.1);"><i data-lucide="calendar" style="width: 28px; height: 28px;"></i></div>
+        <div class="stat-icon" style="color: var(--warning); background: rgba(245,158,11,0.1);"><i data-lucide="calendar" style="width: 20px; height: 20px;"></i></div>
         <div class="stat-info">
             <h3>{{ upcoming_sessions }}</h3>
             <p>Upcoming Sessions</p>
         </div>
     </div>
     <div class="card stat-card">
-        <div class="stat-icon" style="color: var(--primary); background: rgba(79,70,229,0.1);"><i data-lucide="lightbulb" style="width: 28px; height: 28px;"></i></div>
+        <div class="stat-icon" style="color: var(--primary); background: rgba(79,70,229,0.1);"><i data-lucide="lightbulb" style="width: 20px; height: 20px;"></i></div>
         <div class="stat-info">
             <h3>{{ skills_listed }}</h3>
             <p>Skills Listed</p>
@@ -38,33 +38,33 @@
 </div>
 
 <!-- Main Split: Match Engine & Recent Connections -->
-<div class="grid-cols-2" style="margin-bottom: 40px; align-items: stretch;">
+<div class="grid-cols-2" style="margin-bottom: 24px; align-items: stretch;">
 
     <!-- Left side: Tinder Match stack -->
     <div class="card" style="display:flex; flex-direction: column; align-items: center;">
-        <div style="text-align: center; margin-bottom: 24px;">
-            <h2 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 8px;">Discover Potential Matches</h2>
-            <p style="color: var(--muted); font-size: 0.875rem;">Swipe right on skills you're interested in learning!</p>
+        <div style="text-align: center; margin-bottom: 16px;">
+            <h2 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 6px;">Discover Potential Matches</h2>
+            <p style="color: var(--muted); font-size: 0.8rem;">Swipe right on skills you're interested in learning!</p>
         </div>
         
         {% if suggested_matches %}
         <div class="tinder-stack" id="tinderStack" style="width: 100%;">
             {% for m in suggested_matches %}
-            <div class="tinder-card {% if loop.index == 1 %}active{% elif loop.index == 2 %}next-1{% elif loop.index == 3 %}next-2{% else %}hidden{% endif %}" style="padding: 32px;">
-                <div class="t-avatar avatar" style="width: 80px; height: 80px; font-size: 2rem;">{{ m.full_name[0] }}</div>
-                <div style="text-align: center; margin-bottom: 20px;">
-                    <h3 style="font-size:1.5rem; font-weight:800; line-height: 1.2; margin-bottom: 8px;">{{ m.full_name }}</h3>
-                    <p style="color:var(--muted); font-size:0.875rem;">{{ m.university }} • <i data-lucide="star" style="width: 14px; height: 14px; fill: currentColor; display: inline-block; vertical-align: text-bottom;"></i> {{ m.avg_rating }}</p>
+            <div class="tinder-card {% if loop.index == 1 %}active{% elif loop.index == 2 %}next-1{% elif loop.index == 3 %}next-2{% else %}hidden{% endif %}">
+                <div class="t-avatar avatar">{{ m.full_name[0] }}</div>
+                <div style="text-align: center; margin-bottom: 12px;">
+                    <h3 style="font-size:1.2rem; font-weight:800; line-height: 1.2; margin-bottom: 4px;">{{ m.full_name }}</h3>
+                    <p style="color:var(--muted); font-size:0.8rem;">{{ m.university }} • <i data-lucide="star" style="width: 12px; height: 12px; fill: currentColor; display: inline-block; vertical-align: text-bottom;"></i> {{ m.avg_rating }}</p>
                 </div>
                 
                 <div class="highlight-box" style="margin-bottom: auto;">
                     <p class="section-label" style="text-align: center;">They can teach you:</p>
-                    <div style="display:flex; align-items:center; justify-content: center; gap:8px;">
-                        <span style="font-weight:700; font-size: 1.1rem; color: var(--primary);">{{ m.their_teach_skill }}</span>
+                    <div style="display:flex; align-items:center; justify-content: center; gap:6px;">
+                        <span style="font-weight:700; font-size: 1rem; color: var(--primary);">{{ m.their_teach_skill }}</span>
                     </div>
                 </div>
                 
-                <div class="t-actions" style="margin-top: 24px;">
+                <div class="t-actions">
                     <button class="btn-circle btn-pass" onclick="swipeCard(this, 'left', 'tinderStack')"><i data-lucide="x"></i></button>
                     <form method="POST" action="{{ url_for('create_match') }}" style="display:inline;" onsubmit="swipeCard(this.closest('.tinder-card').querySelector('.btn-match'), 'right', 'tinderStack');">
                         <input type="hidden" name="their_skill_id" value="{{ m.their_teach_skill_id }}">
@@ -75,19 +75,19 @@
             {% endfor %}
         </div>
         {% else %}
-        <div style="text-align:center; padding: 60px 0; margin: auto;">
-            <div style="margin-bottom: 16px; opacity: 0.5;"><i data-lucide="search" style="width: 48px; height: 48px;"></i></div>
-            <p style="color:var(--muted); line-height: 1.6;">No personalized matches right now.<br>Add more skills you want to learn!</p>
+        <div style="text-align:center; padding: 40px 0; margin: auto;">
+            <div style="margin-bottom: 12px; opacity: 0.5;"><i data-lucide="search" style="width: 36px; height: 36px;"></i></div>
+            <p style="color:var(--muted); line-height: 1.5;">No personalized matches right now.<br>Add more skills you want to learn!</p>
             <a href="{{ url_for('my_skills') }}" class="btn btn-outline mt-6">Update My Skills</a>
         </div>
         {% endif %}
     </div>
 
     <!-- Right Side: Recent Matches list -->
-    <div style="display:flex; flex-direction: column; gap: 32px;">
-        <div class="card">
-            <h2 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 24px;">Recent Connections</h2>
-            <div class="table-container">
+    <div style="display:flex; flex-direction: column; gap: 20px;">
+        <div class="card" style="flex: 1; display: flex; flex-direction: column;">
+            <h2 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 16px;">Recent Connections</h2>
+            <div class="table-container" style="flex: 1;">
                 <table style="width: 100%;">
                     <thead>
                         <tr>
@@ -99,8 +99,8 @@
                         {% for m in recent_matches %}
                         <tr>
                             <td>
-                                <div style="font-weight: 600; font-size: 1rem; margin-bottom: 4px;">{% if m.teacher_id == session.user_id %}{{ m.learner }}{% else %}{{ m.teacher }}{% endif %}</div>
-                                <span style="font-size:0.875rem; color: var(--muted);">
+                                <div style="font-weight: 600; font-size: 0.95rem; margin-bottom: 2px;">{% if m.teacher_id == session.user_id %}{{ m.learner }}{% else %}{{ m.teacher }}{% endif %}</div>
+                                <span style="font-size:0.8rem; color: var(--muted);">
                                     {% if m.teacher_id == session.user_id %}Teaching: {{ m.t_skill }}{% else %}Learning: {{ m.t_skill }}{% endif %}
                                 </span>
                             </td>
@@ -112,14 +112,14 @@
                         </tr>
                         {% else %}
                         <tr>
-                            <td colspan="2" style="text-align:center; color: var(--muted);">You don't have any recent connection history.</td>
+                            <td colspan="2" style="text-align:center; color: var(--muted); padding: 20px;">You don't have any recent connection history.</td>
                         </tr>
                         {% endfor %}
                     </tbody>
                 </table>
             </div>
-            <div style="margin-top: 24px; text-align: right;">
-                <a href="{{ url_for('matches') }}" style="color: var(--primary); font-size: 0.875rem; font-weight: 700; text-decoration: none; padding: 8px 16px; background: rgba(79,70,229,0.1); border-radius: 8px;">View Full History &rarr;</a>
+            <div style="margin-top: 16px; text-align: right;">
+                <a href="{{ url_for('matches') }}" style="color: var(--primary); font-size: 0.85rem; font-weight: 700; text-decoration: none; padding: 6px 12px; background: rgba(30, 58, 138, 0.08); border-radius: 6px;">View Full History &rarr;</a>
             </div>
         </div>
     </div>

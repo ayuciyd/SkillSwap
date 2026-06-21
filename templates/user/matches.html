@@ -30,7 +30,7 @@
         <div class="tinder-card {% if loop.index == 1 %}active{% elif loop.index == 2 %}next-1{% elif loop.index == 3 %}next-2{% else %}hidden{% endif %}">
             <div class="t-avatar avatar">{{ m.full_name[0] }}</div>
             <div style="text-align: center; margin-bottom: 16px;">
-                <h3 style="font-size:1.5rem; font-weight:800;">{{ m.full_name }}</h3>
+                <h3 style="font-size:1.2rem; font-weight:800;">{{ m.full_name }}</h3>
                 <p style="color:var(--muted); font-size:0.875rem;">{{ m.university }} • <i data-lucide="star" style="width: 14px; height: 14px; display: inline-block; vertical-align: text-bottom; fill: currentColor;"></i> {{ m.avg_rating }}</p>
             </div>
             
@@ -72,7 +72,7 @@
         <div class="tinder-card {% if loop.index == 1 %}active{% elif loop.index == 2 %}next-1{% elif loop.index == 3 %}next-2{% else %}hidden{% endif %}">
             <div class="t-avatar avatar">{{ m.full_name[0] }}</div>
             <div style="text-align: center; margin-bottom: 16px;">
-                <h3 style="font-size:1.5rem; font-weight:800;">{{ m.full_name }}</h3>
+                <h3 style="font-size:1.2rem; font-weight:800;">{{ m.full_name }}</h3>
                 <p style="color:var(--muted); font-size:0.875rem;">{{ m.university }} • <i data-lucide="star" style="width: 14px; height: 14px; display: inline-block; vertical-align: text-bottom; fill: currentColor;"></i> {{ m.avg_rating }}</p>
             </div>
             
@@ -164,7 +164,7 @@
 <!-- Category Prompt Modal -->
 <div id="categoryPromptModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:9999; align-items:center; justify-content:center;">
     <div class="card" style="width: 90%; max-width: 400px; padding: 32px; text-align: center;">
-        <h2 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 16px;">Not what you're looking for?</h2>
+        <h2 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 16px;">Not what you're looking for?</h2>
         <p style="color: var(--muted); margin-bottom: 24px;">You can filter the feed to a specific category you are interested in.</p>
         <form method="POST" action="{{ url_for('set_preference') }}">
             <div class="form-group" style="text-align: left;">
