@@ -1,35 +1,35 @@
 {% extends "base.html" %}
 {% block content %}
 <!-- Welcome Banner -->
-<div class="card" style="background: #DBEAFE; border: 1.5px solid rgba(30, 58, 138, 0.15); padding: 24px; margin-bottom: 20px; border-radius: 12px; color: #1E3A8A; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 15px rgba(30, 58, 138, 0.05);">
+<div class="card" style="background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%); border: 1px solid rgba(255,255,255,0.05); padding: 24px; margin-bottom: 20px; border-radius: 12px; color: #FFFFFF; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 10px 25px rgba(15, 23, 42, 0.15);">
     <div>
-        <h1 style="font-size: 1.75rem; font-weight: 800; margin-bottom: 8px; line-height: 1.2; color: #1E3A8A;">Welcome back,<br>{{ current_user.full_name }}</h1>
-        <p style="font-size: 1rem; opacity: 0.95; max-width: 450px; color: #1E293B;">You currently have <strong>{{ current_user.credits_balance }} credits</strong>. Complete teaching sessions to rank up and earn more!</p>
+        <h1 style="font-size: 1.75rem; font-weight: 800; margin-bottom: 8px; line-height: 1.2; color: #FFFFFF;">Welcome back,<br>{{ current_user.full_name }}</h1>
+        <p style="font-size: 1.05rem; opacity: 0.9; max-width: 450px; color: #94A3B8;">You currently have <strong style="color: #3B82F6;">{{ current_user.credits_balance }} credits</strong>. Complete teaching sessions to rank up and earn more!</p>
     </div>
     <div style="display:flex; gap: 12px; flex-wrap: wrap;">
-        <a href="{{ url_for('matches') }}" class="btn btn-primary" style="padding: 10px 20px; font-weight: 700;">Launch Matchmaker</a>
-        <a href="{{ url_for('browse') }}" class="btn btn-outline" style="border-color: var(--primary); padding: 10px 20px; font-weight: 700;">Browse Directory</a>
+        <a href="{{ url_for('matches') }}" class="btn btn-primary" style="background: #2563EB; color: #FFFFFF; border: none; padding: 10px 20px; font-weight: 700; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);">Launch Matchmaker</a>
+        <a href="{{ url_for('browse') }}" class="btn btn-outline" style="border-color: rgba(255, 255, 255, 0.3); color: #FFFFFF; padding: 10px 20px; font-weight: 700;">Browse Directory</a>
     </div>
 </div>
 
 <!-- Key Metrics Row -->
 <div class="stats-grid">
     <div class="card stat-card">
-        <div class="stat-icon" style="color: var(--success); background: rgba(16,185,129,0.1);"><i data-lucide="users" style="width: 20px; height: 20px;"></i></div>
+        <div class="stat-icon" style="color: var(--primary); background: rgba(30, 58, 138, 0.06);"><i data-lucide="users" style="width: 20px; height: 20px;"></i></div>
         <div class="stat-info">
             <h3>{{ active_matches }}</h3>
             <p>Active Connections</p>
         </div>
     </div>
     <div class="card stat-card">
-        <div class="stat-icon" style="color: var(--warning); background: rgba(245,158,11,0.1);"><i data-lucide="calendar" style="width: 20px; height: 20px;"></i></div>
+        <div class="stat-icon" style="color: var(--primary); background: rgba(30, 58, 138, 0.06);"><i data-lucide="calendar" style="width: 20px; height: 20px;"></i></div>
         <div class="stat-info">
             <h3>{{ upcoming_sessions }}</h3>
             <p>Upcoming Sessions</p>
         </div>
     </div>
     <div class="card stat-card">
-        <div class="stat-icon" style="color: var(--primary); background: rgba(79,70,229,0.1);"><i data-lucide="lightbulb" style="width: 20px; height: 20px;"></i></div>
+        <div class="stat-icon" style="color: var(--primary); background: rgba(30, 58, 138, 0.06);"><i data-lucide="lightbulb" style="width: 20px; height: 20px;"></i></div>
         <div class="stat-info">
             <h3>{{ skills_listed }}</h3>
             <p>Skills Listed</p>
