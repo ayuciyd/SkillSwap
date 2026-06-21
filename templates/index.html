@@ -28,27 +28,39 @@
     </div>
 </div>
 
-<div id="how-it-works" style="padding: 40px 20px; background: rgba(255,255,255,0.02);">
+<div id="how-it-works" style="padding: 60px 20px; background: rgba(255, 255, 255, 0.4); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
     <div style="max-width: 1000px; margin: 0 auto; text-align: center;">
-        <h2 style="font-size: 1.8rem; font-weight: 800; margin-bottom: 24px;">How SkillSwap Works</h2>
+        <h2 style="font-size: 2rem; font-weight: 800; margin-bottom: 40px; color: var(--primary);">How SkillSwap Works</h2>
         
-        <div class="grid-cols-3">
-            <div class="card" style="border: 1px solid rgba(0,0,0,0.05); background: var(--card-bg);">
-                <div class="stat-icon" style="margin: 0 auto 16px; width: 48px; height: 48px; background: rgba(30,58,138,0.08);"><i data-lucide="file-text" style="width: 24px; height: 24px;"></i></div>
-                <h3 style="font-size: 1.15rem; margin-bottom: 8px;">1. List Your Skills</h3>
-                <p style="color: var(--muted);">Add the skills you can teach and the ones you want to learn. Our smart AI maps out the taxonomy.</p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; position: relative;">
+            <!-- Step 1 -->
+            <div style="position: relative; display: flex; flex-direction: column; align-items: center; padding: 24px; text-align: center;">
+                <div style="position: absolute; top: -10px; font-size: 6rem; font-weight: 900; color: rgba(30, 58, 138, 0.05); user-select: none; z-index: 1;">01</div>
+                <div style="position: relative; z-index: 2; margin-bottom: 16px; width: 56px; height: 56px; border-radius: 50%; background: #FFFFFF; border: 1.5px solid rgba(30, 58, 138, 0.15); box-shadow: 0 4px 10px rgba(30, 58, 138, 0.05); display: flex; align-items: center; justify-content: center; color: var(--primary);">
+                    <i data-lucide="file-text" style="width: 24px; height: 24px;"></i>
+                </div>
+                <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--primary); margin-bottom: 8px; z-index: 2;">List Your Skills</h3>
+                <p style="color: var(--muted); font-size: 0.95rem; line-height: 1.6; z-index: 2; max-width: 280px;">Add the skills you want to teach or learn. Our smart AI maps out categories automatically.</p>
             </div>
             
-            <div class="card" style="border: 1px solid rgba(0,0,0,0.05); background: var(--card-bg);">
-                <div class="stat-icon" style="margin: 0 auto 16px; width: 48px; height: 48px; background: rgba(15,118,110,0.08); color: var(--secondary);"><i data-lucide="flame" style="width: 24px; height: 24px;"></i></div>
-                <h3 style="font-size: 1.15rem; margin-bottom: 8px;">2. Swipe to Match</h3>
-                <p style="color: var(--muted);">Discover other students via our Tinder-style UI. Swipe right on skills that match your interest.</p>
+            <!-- Step 2 -->
+            <div style="position: relative; display: flex; flex-direction: column; align-items: center; padding: 24px; text-align: center;">
+                <div style="position: absolute; top: -10px; font-size: 6rem; font-weight: 900; color: rgba(15, 118, 110, 0.05); user-select: none; z-index: 1;">02</div>
+                <div style="position: relative; z-index: 2; margin-bottom: 16px; width: 56px; height: 56px; border-radius: 50%; background: #FFFFFF; border: 1.5px solid rgba(15, 118, 110, 0.15); box-shadow: 0 4px 10px rgba(15, 118, 110, 0.05); display: flex; align-items: center; justify-content: center; color: var(--secondary);">
+                    <i data-lucide="flame" style="width: 24px; height: 24px;"></i>
+                </div>
+                <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--primary); margin-bottom: 8px; z-index: 2;">Swipe to Match</h3>
+                <p style="color: var(--muted); font-size: 0.95rem; line-height: 1.6; z-index: 2; max-width: 280px;">Discover other university students. Swipe right on skills matching your learning interest.</p>
             </div>
             
-            <div class="card" style="border: 1px solid rgba(0,0,0,0.05); background: var(--card-bg);">
-                <div class="stat-icon" style="margin: 0 auto 16px; width: 48px; height: 48px; background: rgba(5,150,105,0.08); color: var(--success);"><i data-lucide="star" style="width: 24px; height: 24px;"></i></div>
-                <h3 style="font-size: 1.15rem; margin-bottom: 8px;">3. Earn Credits</h3>
-                <p style="color: var(--muted);">Share skills and earn credits. Finish sessions to rank up the leaderboard!</p>
+            <!-- Step 3 -->
+            <div style="position: relative; display: flex; flex-direction: column; align-items: center; padding: 24px; text-align: center;">
+                <div style="position: absolute; top: -10px; font-size: 6rem; font-weight: 900; color: rgba(5, 150, 105, 0.05); user-select: none; z-index: 1;">03</div>
+                <div style="position: relative; z-index: 2; margin-bottom: 16px; width: 56px; height: 56px; border-radius: 50%; background: #FFFFFF; border: 1.5px solid rgba(5, 150, 105, 0.15); box-shadow: 0 4px 10px rgba(5, 150, 105, 0.05); display: flex; align-items: center; justify-content: center; color: var(--success);">
+                    <i data-lucide="star" style="width: 24px; height: 24px;"></i>
+                </div>
+                <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--primary); margin-bottom: 8px; z-index: 2;">Earn Credits</h3>
+                <p style="color: var(--muted); font-size: 0.95rem; line-height: 1.6; z-index: 2; max-width: 280px;">Share skills and earn credits. Complete sessions to rank up and learn more!</p>
             </div>
         </div>
     </div>
