@@ -983,6 +983,30 @@ def profile():
         
     return render_template('user/profile.html', user=user_info, reviews=reviews, completed_teach=completed_teach, badges=badges)
 
+@app.route('/delete-account', methods=['POST'])
+@login_required
+def delete_account():
+    uid = session['user_id']
+    with get_db_cursor(mysql) as cursor:
+        # Delete reviews
+        cursor.execute("DELETE FROM reviews WHERE reviewer_id=%s OR reviewee_id=%s", (uid, uid))
+        # Delete credit transactions
+        cursor.execute("DELETE FROM credit_transactions WHERE user_id=%s", (uid,))
+        # Delete sessions
+        cursor.execute("DELETE FROM sessions WHERE teacher_id=%s OR learner_id=%s", (uid, uid))
+        # Delete matches
+        cursor.execute("DELETE FROM matches WHERE teacher_id=%s OR learner_id=%s", (uid, uid))
+        # Delete skills
+        cursor.execute("DELETE FROM skills WHERE user_id=%s", (uid,))
+        # Delete notifications
+        cursor.execute("DELETE FROM notifications WHERE user_id=%s", (uid,))
+        # Delete user
+        cursor.execute("DELETE FROM users WHERE id=%s", (uid,))
+    
+    session.clear()
+    flash("Your account has been deleted successfully.", "success")
+    return redirect(url_for('login'))
+
 @app.route('/leaderboard')
 @login_required
 def leaderboard():

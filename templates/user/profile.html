@@ -72,4 +72,37 @@
         </div>
     </div>
 </div>
+
+<!-- Danger Zone -->
+<div class="card" style="margin-top: 24px; border: 1px solid rgba(239, 68, 68, 0.2); background: rgba(239, 68, 68, 0.02); padding: 20px 24px;">
+    <h2 style="font-size: 1.25rem; font-weight: 700; color: #EF4444; margin-bottom: 8px;">Danger Zone</h2>
+    <p style="color: var(--muted); margin-bottom: 16px;">Once you delete your account, there is no going back. All your matches, sessions, and credits will be permanently removed.</p>
+    <button type="button" class="btn btn-danger" onclick="openDeleteAccountModal()">Delete Account</button>
+</div>
+
+<!-- Custom Delete Account Modal -->
+<div id="deleteAccountModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; align-items:center; justify-content:center;">
+    <div class="card" style="max-width: 400px; margin: 0 20px; text-align: center; padding: 32px;">
+        <div style="color: #EF4444; margin-bottom: 16px;">
+            <i data-lucide="alert-triangle" style="width: 48px; height: 48px;"></i>
+        </div>
+        <h2 style="font-size: 1.5rem; font-weight: 800; color: #EF4444; margin-bottom: 16px;">Delete Account?</h2>
+        <p style="color: var(--muted); margin-bottom: 24px;">Are you sure you want to permanently delete your account? This action cannot be undone.</p>
+        <form method="POST" action="{{ url_for('delete_account') }}">
+            <div style="display:flex; gap:12px; justify-content:center;">
+                <button type="button" class="btn btn-outline" onclick="closeDeleteAccountModal()">Cancel</button>
+                <button type="submit" class="btn btn-danger">Yes, Delete Account</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function openDeleteAccountModal() {
+        document.getElementById('deleteAccountModal').style.display = 'flex';
+    }
+    function closeDeleteAccountModal() {
+        document.getElementById('deleteAccountModal').style.display = 'none';
+    }
+</script>
 {% endblock %}
